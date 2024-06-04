@@ -44,10 +44,7 @@ class LocalAuth extends BaseAuthStrategy {
 
     async logout() {
         if (this.userDataDir) {
-            await fs.promises.rm(this.userDataDir, { recursive: true, force: true })
-                .catch((e) => {
-                    throw new Error(e);
-                });
+            return (fs.rmSync ? fs.rmSync : fs.rmdirSync).call(this, this.userDataDir, { recursive: true, force: true });
         }
     }
 
